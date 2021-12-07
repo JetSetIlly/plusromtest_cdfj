@@ -64,12 +64,12 @@ unsigned short int player_shape[2];
 unsigned char is_7800;  // 0 = 2600, non-zero = 7800
 
 // Image Data
-short int *image_graphics       =(short int *)_IMAGE_GRAPHICS;
-short int *image_colors         =(short int *)_IMAGE_COLORS;
-unsigned char *image_heights    =(unsigned char *)_IMAGE_HEIGHTS;
+short int *image_graphics       =(short int *)(ROM+_IMAGE_GRAPHICS);
+short int *image_colors         =(short int *)(ROM+_IMAGE_COLORS);
+unsigned char *image_heights    =(unsigned char *)(ROM+_IMAGE_HEIGHTS);
 
 // Menu Data
-short int *menu_graphics_offset =(short int *)_MENU_GRAPHICS_OFFSET;
+short int *menu_graphics_offset =(short int *)(ROM+_MENU_GRAPHICS_OFFSET);
 unsigned char mm_selected_option;
 unsigned char mm_tv_type;  // 0 = NTSC, 1 = PAL, 2 = SECAM
 unsigned char mm_joystick_timer;
@@ -364,7 +364,7 @@ void ChangeMenuOption(unsigned int graphic48,       // first byte of option grap
     int r, c;
     for (r=0;r<_MM_OPTION_HEIGHT;r++)
         for(c=0;c<columns;c++)
-            RAM[graphic48 + startingcolumn + c + r*6] = ((unsigned char *)( newgraphic ))[c + r*columns];
+            RAM[graphic48 + startingcolumn + c + r*6] = ((unsigned char *)( ROM+newgraphic ))[c + r*columns];
 }
 
 void ProcessGameJoystick()
