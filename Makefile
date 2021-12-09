@@ -35,7 +35,7 @@ BIN = $(BASE)/bin
 
 # C Compiler flags
 OPTIMIZATION = -Os 
-CFLAGS = -mcpu=arm7tdmi -march=armv4t -mthumb # -mthumb-interwork
+CFLAGS = -g -mcpu=arm7tdmi -march=armv4t -mthumb # -mthumb-interwork
 CFLAGS += -Wall -ffunction-sections # -save-temps #-mlong-calls 
 CFLAGS += $(OPTIMIZATION) $(INCLUDES)
 CFLAGS += -Wl,--build-id=none
@@ -93,6 +93,7 @@ armcode_arm: $(CUSTOMTARGETS)
 
 $(CUSTOMELF): $(CUSTOMOBJS) Makefile
 	$(CC) $(CFLAGS) -o $(CUSTOMELF) $(CUSTOMOBJS) -T $(CUSTOMLINK) -nostartfiles -Wl,-Map=$(CUSTOMMAP),--gc-sections 
+	$(TOOLCHAIN)-objdump -S $(CUSTOMELF) > $(BIN)/$(CUSTOMNAME).obj
 $(CUSTOMBIN): $(CUSTOMELF)
 	$(OBJCOPY) -O binary -S $(CUSTOMELF) $(CUSTOMBIN)
 	$(SIZE) $(CUSTOMOBJS) $(CUSTOMELF)
